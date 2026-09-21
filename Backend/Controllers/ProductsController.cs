@@ -22,6 +22,7 @@ namespace ShopPulse.Backend.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Product>> GetProducts()
         {
+            Thread.Sleep(1500); // Simulate a delay of 1.5 seconds to mimic a real-world scenario
             return Ok(Products);
         }
 

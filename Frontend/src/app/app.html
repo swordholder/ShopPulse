@@ -1,20 +1,41 @@
 <main style="padding: 2rem; font-family: sans-serif; max-width: 900px; margin: 0 auto;">
   <h1>ShopPulse Catalog</h1>
 
+  <!-- Search & Filter Controls Bar -->
+  <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+    <input
+      type="text"
+      placeholder="Search products..."
+      [value]="productService.searchTerm()"
+      (input)="productService.searchTerm.set($any($event.target).value)"
+      style="padding: 0.5rem; flex: 1; min-width: 200px; border: 1px solid #ccc; border-radius: 4px;"
+    />
+
+    <select
+  [value]="productService.selectedCategory()"
+  (change)="productService.selectedCategory.set($any($event.target).value)"
+  style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;"
+>
+  @for (category of productService.categories(); track category) {
+    <option [value]="category">{{ category }}</option>
+  }
+</select>
+  </div>
+
   <!-- Loading State -->
   @if (productService.loading()) {
     <p>Loading catalog...</p>
   }
-  
+
   <!-- Error State -->
   @if (productService.error()) {
     <p style="color: red;">{{ productService.error() }}</p>
   }
 
-  <!-- Product List -->
+  <!-- Filtered Product Grid -->
   @if (!productService.loading() && !productService.error()) {
-    <div style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); margin-top: 1.5rem;">
-      @for (product of productService.products(); track product.id) {
+    <div style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));">
+      @for (product of productService.filteredProducts(); track product.id) {
         <div style="border: 1px solid #ccc; border-radius: 8px; padding: 1rem; background: #f9f9f9;">
           <h3>{{ product.name }}</h3>
           <p style="color: #666; font-size: 0.9rem;">{{ product.description }}</p>
@@ -26,7 +47,7 @@
           </p>
         </div>
       } @empty {
-        <p>No products found.</p>
+        <p>No products match your search criteria.</p>
       }
     </div>
   }
