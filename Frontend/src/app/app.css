@@ -1,0 +1,17 @@
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  border: 2px solid rgba(46, 125, 50, 0.18);
+  border-top-color: #2e7d32;
+  box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.06);
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
